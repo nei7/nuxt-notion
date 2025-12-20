@@ -1,9 +1,11 @@
 import {
   defineNuxtModule,
-  addPlugin,
   createResolver,
   addComponentsDir,
+  addImportsDir,
+  addVitePlugin,
 } from '@nuxt/kit'
+import tailwindcss from '@tailwindcss/vite'
 
 export interface ModuleOptions {
   notionApiKey: string
@@ -12,18 +14,26 @@ export interface ModuleOptions {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-notion',
-    configKey: 'myModule',
+    configKey: 'nuxtNotion',
   },
   defaults: {},
-  setup(_options, _nuxt) {
+  setup(_options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    nuxt.options.runtimeConfig.nuxtNotion = {
+      notionApiKey: _options.notionApiKey,
+    }
+
+    addVitePlugin(tailwindcss())
+    nuxt.options.css.push(resolver.resolve('./runtime/tailwind.css'))
+
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),
       pathPrefix: false,
       prefix: 'Notion',
       global: true,
     })
+
+    addImportsDir(resolver.resolve('./runtime/composables'))
   },
 })
