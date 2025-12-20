@@ -7,3 +7,5 @@ export type AnyNotionBlock = BlockObjectResponse | PartialBlockObjectResponse
 export type NotionAnnotations = RichTextItemResponse['annotations']
 
 export type NotionListBlock = BulletedListItemBlockObjectResponse | NumberedListItemBlockObjectResponse | ToDoBlockObjectResponse
+
+export type NotionListType = NotionListBlock['type']
