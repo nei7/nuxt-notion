@@ -3,6 +3,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   nuxtNotion: {
-    notionApiKey: '',
+    notionApiKey: process.env.API_TOKEN,
   },
 })

@@ -10,6 +10,7 @@ import Callout from './Callout.vue'
 import Quote from './Quote.vue'
 import { computed } from 'vue'
 import ListRenderer from './ListRenderer.vue'
+import Divider from './Divider.vue'
 
 const props = defineProps<{
   blocks: AnyNotionBlock[]
@@ -57,7 +58,6 @@ const renderableBlocks = computed(() => {
         items: [block],
       })
     }
-    // Zwykły blok
     else {
       result.push({ type: RenderBlockType.Block, block })
     }
@@ -79,24 +79,28 @@ const renderableBlocks = computed(() => {
       />
       <Paragraph
         v-else-if="isNotionBlockType(renderBlock.block, 'paragraph')"
-        :paragraph="renderBlock.block"
+        :block="renderBlock.block"
       />
       <Image
         v-else-if="isNotionBlockType(renderBlock.block, 'image')"
-        :image="renderBlock.block"
+        :block="renderBlock.block"
       />
       <Code
         v-else-if="isNotionBlockType(renderBlock.block, 'code')"
-        :code="renderBlock.block"
+        :block="renderBlock.block"
       />
 
       <Callout
         v-else-if="isNotionBlockType(renderBlock.block, 'callout')"
-        :callout="renderBlock.block"
+        :block="renderBlock.block"
       />
 
       <Quote
         v-else-if="isNotionBlockType(renderBlock.block, 'quote')"
+        :block="renderBlock.block"
+      />
+      <Divider
+        v-else-if="isNotionBlockType(renderBlock.block, 'divider')"
         :block="renderBlock.block"
       />
     </template>
