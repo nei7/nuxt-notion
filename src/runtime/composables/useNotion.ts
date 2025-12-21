@@ -11,6 +11,7 @@ export const useNotion = () => {
     const response = await notionClient.blocks.children.list({
       ...params,
       auth: config?.notionApiKey,
+
     })
     return response.results
   }

@@ -8,16 +8,38 @@ const props = defineProps<{
 }>()
 
 const color = notionColorToCss(props.block.callout.color)
+
+const { icon } = props.block.callout
+
+const imgUrl = () => {
+  if (!icon) return
+  if (icon.type === 'external') return icon.external.url
+  if (icon.type === 'file') return icon.file.url
+}
 </script>
 
 <template>
   <div
-    :style="color"
-    class="p-3"
-    :class="{
-      border: !color,
-    }"
+    class="p-3 my-4 rounded-md flex space-x-3"
+    :class="color"
   >
-    <TextRenderer :text="block.callout.rich_text" />
+    <div
+      v-if="icon"
+      class="flex items-center justify-center "
+    >
+      <span v-if="icon.type === 'emoji'">
+        {{ icon.emoji }}
+      </span>
+
+      <img
+        v-else-if="icon.type === 'external' || icon.type === 'file'"
+        class="w-5 h-5 rounded-md"
+        :src="imgUrl()"
+      >
+    </div>
+
+    <div>
+      <TextRenderer :text="block.callout.rich_text" />
+    </div>
   </div>
 </template>

@@ -11,7 +11,7 @@ defineProps<{
   <div class="flex items-center space-x-3 mb-3 ">
     <input
       type="checkbox"
-      :model-value="block.to_do.checked"
+      :value="block.to_do.checked"
       disabled
     >
     <div

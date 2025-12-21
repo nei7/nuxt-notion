@@ -11,4 +11,6 @@
 const notion = useNotion()
 
 const { data: blocks } = await useAsyncData('blocks', async () => await notion.getPageBlocks({ page_size: 100, block_id: '19617292-7d72-801f-bb26-dec69caa7f71' }))
+
+console.log(blocks.value)
 </script>
