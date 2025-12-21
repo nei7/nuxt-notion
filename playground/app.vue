@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="blocks"
-    class="max-w-4xl mx-auto"
+    class="max-w-4xl mx-auto mb-20"
   >
     <NotionRenderer :blocks="blocks" />
   </div>

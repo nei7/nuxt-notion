@@ -11,6 +11,7 @@ import Quote from './Quote.vue'
 import { computed } from 'vue'
 import ListRenderer from './ListRenderer.vue'
 import Divider from './Divider.vue'
+import Video from './Video.vue'
 
 const props = defineProps<{
   blocks: AnyNotionBlock[]
@@ -89,18 +90,20 @@ const renderableBlocks = computed(() => {
         v-else-if="isNotionBlockType(renderBlock.block, 'code')"
         :block="renderBlock.block"
       />
-
       <Callout
         v-else-if="isNotionBlockType(renderBlock.block, 'callout')"
         :block="renderBlock.block"
       />
-
       <Quote
         v-else-if="isNotionBlockType(renderBlock.block, 'quote')"
         :block="renderBlock.block"
       />
       <Divider
         v-else-if="isNotionBlockType(renderBlock.block, 'divider')"
+        :block="renderBlock.block"
+      />
+      <Video
+        v-else-if="isNotionBlockType(renderBlock.block, 'video')"
         :block="renderBlock.block"
       />
     </template>
