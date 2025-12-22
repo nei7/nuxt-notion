@@ -12,6 +12,8 @@ import { computed } from 'vue'
 import ListRenderer from './ListRenderer.vue'
 import Divider from './Divider.vue'
 import Video from './Video.vue'
+import File from './File.vue'
+import Embed from './Embed.vue'
 
 const props = defineProps<{
   blocks: AnyNotionBlock[]
@@ -105,6 +107,14 @@ const renderableBlocks = computed(() => {
       <Video
         v-else-if="isNotionBlockType(renderBlock.block, 'video')"
         :block="renderBlock.block"
+      />
+      <File
+        v-else-if="isNotionBlockType(renderBlock.block, 'file')"
+        :block="renderBlock.block"
+      />
+      <Embed
+        v-else-if="isNotionBlockType(renderBlock.block, 'embed')"
+        :embed="renderBlock.block"
       />
     </template>
     <ListRenderer

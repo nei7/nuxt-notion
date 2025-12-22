@@ -33,7 +33,7 @@ const imgUrl = () => {
 
       <img
         v-else-if="icon.type === 'external' || icon.type === 'file'"
-        class="w-5 h-5 rounded-md"
+        class="w-5 h-5 rounded-md m-0!"
         :src="imgUrl()"
       >
     </div>

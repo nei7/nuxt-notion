@@ -1,16 +1,21 @@
 <template>
   <div
-    v-if="blocks"
-    class="max-w-4xl mx-auto mb-20"
+    v-if="data"
+    class="max-w-4xl mx-auto mb-20 prose"
   >
-    <NotionRenderer :blocks="blocks" />
+    <NotionRenderer :blocks="data.results" />
   </div>
 </template>
 
 <script setup>
-const notion = useNotion()
+import { getNotionBlocks } from '../src/runtime/composables/notion'
 
-const { data: blocks } = await useAsyncData('blocks', async () => await notion.getPageBlocks({ page_size: 100, block_id: '19617292-7d72-801f-bb26-dec69caa7f71' }))
+const { data } = await useAsyncData('blocks', () => getNotionBlocks({ block_id: '19617292-7d72-801f-bb26-dec69caa7f71' }))
 
-console.log(blocks.value)
+console.log(data.value.results)
 </script>
+
+<style>
+  @import "tailwindcss";
+  @plugin "@tailwindcss/typography";
+</style>

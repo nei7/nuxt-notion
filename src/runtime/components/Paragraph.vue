@@ -10,12 +10,11 @@ defineProps<{
 <template>
   <p
     v-if="block.paragraph.rich_text.length > 0"
-    class="my-3 leading-loose"
   >
     <TextRenderer :text="block.paragraph.rich_text" />
   </p>
-  <div
+  <p
     v-else
-    class="my-5 h-px"
+    class="h-px"
   />
 </template>

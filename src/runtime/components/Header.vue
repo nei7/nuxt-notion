@@ -20,10 +20,10 @@ defineProps<{
   >
     <TextRenderer :text="block.heading_2.rich_text" />
   </h2>
-  <h1
+  <h3
     v-else-if="block.type === 'heading_3'"
     class="text-xl font-bold mt-7 mb-3"
   >
     <TextRenderer :text="block.heading_3.rich_text" />
-  </h1>
+  </h3>
 </template>

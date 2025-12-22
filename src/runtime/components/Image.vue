@@ -21,18 +21,16 @@ const imageCaption = computed(() => {
 </script>
 
 <template>
-  <div class="mb-6">
-    <img
-      :src="imageUrl"
-      :alt="imageCaption || 'Image'"
-      class="w-full h-auto rounded-lg shadow-md"
-      loading="lazy"
-    >
-    <div
-      v-if="block.image.caption.length > 0"
-      class="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center"
-    >
-      <TextRenderer :text="block.image.caption" />
-    </div>
+  <img
+    :src="imageUrl"
+    :alt="imageCaption || 'Image'"
+    class="w-full h-auto rounded-lg shadow-md"
+    loading="lazy"
+  >
+  <div
+    v-if="block.image.caption.length > 0"
+    class="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center"
+  >
+    <TextRenderer :text="block.image.caption" />
   </div>
 </template>

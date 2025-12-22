@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { NotionListBlock, NotionListType } from '../types/notion'
 import BulletedList from './BulletedListItem.vue'
 import NumberedListItem from './NumberedListItem.vue'
@@ -9,13 +10,22 @@ const props = defineProps<{
   type: NotionListType
 }>()
 
-const listHtmlTag = props.type === 'numbered_list_item' ? 'ol' : 'ul'
+const listHtmlTag = computed(() => {
+  switch (props.type) {
+    case 'bulleted_list_item':
+      return 'ul'
+    case 'numbered_list_item':
+      return 'ol'
+    case 'to_do':
+    default:
+      return 'di'
+  }
+})
 </script>
 
 <template>
   <component
     :is="listHtmlTag"
-    class="list-inside"
     :class="{
       'list-disc': props.type === 'bulleted_list_item',
       'list-decimal': props.type === 'numbered_list_item',

@@ -2,6 +2,7 @@
 import type { VideoBlockObjectResponse } from '@notionhq/client'
 import { computed } from 'vue'
 import TextRenderer from './TextRenderer.vue'
+import Embed from './Embed.vue'
 
 const props = defineProps<{ block: VideoBlockObjectResponse }>()
 
@@ -14,55 +15,32 @@ const videoUrl = computed(() => {
   || ''
 })
 
-const isYouTube = computed(() => {
-  return (
-    videoUrl.value.includes('youtube.com')
-    || videoUrl.value.includes('youtu.be')
-  )
-})
-
-const youtubeUrl = computed(() => {
-  if (!isYouTube.value) return ''
-
-  try {
-    const matches = videoUrl.value.match(/[?&]v=([\w-]{11})/)
-
-    const videoId = matches ? matches[1] : ''
-
-    return `https://www.youtube.com/embed/${videoId}`
-  }
-  catch {
-    return ''
-  }
-})
+const isExternalVideo = (block: VideoBlockObjectResponse): block is VideoBlockObjectResponse & { video: { type: 'external' } } => {
+  return block.video.type === 'external'
+}
 </script>
 
 <template>
-  <div>
-    <div
-      class="relative aspect-video"
+  <div
+    class="relative aspect-video"
+  >
+    <Embed
+      v-if="isExternalVideo(block)"
+      :embed="block"
+    />
+
+    <video
+      v-else
+      class="absolute inset-0 w-full h-full m-0!"
+
+      controls
     >
-      <iframe
-        v-if="isYouTube"
-        class="absolute inset-0 w-full h-full"
-        :src="youtubeUrl"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      />
-      <video
-        v-else
-        class="absolute inset-0 w-full h-full"
-
-        controls
+      <source
+        :src="videoUrl"
       >
-        <source
-          :src="videoUrl"
-        >
-        Your browser does not support the video tag.
-      </video>
+      Your browser does not support the video tag.
+    </video>
 
-      <TextRenderer :text="block.video.caption" />
-    </div>
+    <TextRenderer :text="block.video.caption" />
   </div>
 </template>

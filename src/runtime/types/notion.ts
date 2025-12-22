@@ -1,4 +1,13 @@
-import type { BlockObjectResponse, BulletedListItemBlockObjectResponse, NumberedListItemBlockObjectResponse, PartialBlockObjectResponse, RichTextItemResponse, ToDoBlockObjectResponse } from '@notionhq/client'
+import type {
+  BlockObjectResponse,
+  BulletedListItemBlockObjectResponse,
+  NumberedListItemBlockObjectResponse,
+  PartialBlockObjectResponse,
+  RichTextItemResponse,
+  ToDoBlockObjectResponse,
+  EmbedBlockObjectResponse,
+  VideoBlockObjectResponse,
+} from '@notionhq/client'
 
 export type NotionColor = RichTextItemResponse['annotations']['color']
 
@@ -9,3 +18,5 @@ export type NotionAnnotations = RichTextItemResponse['annotations']
 export type NotionListBlock = BulletedListItemBlockObjectResponse | NumberedListItemBlockObjectResponse | ToDoBlockObjectResponse
 
 export type NotionListType = NotionListBlock['type']
+
+export type NotionEmbed = EmbedBlockObjectResponse | VideoBlockObjectResponse & { video: { type: 'external' } }
