@@ -1,5 +1,5 @@
 import { getValidatedQuery } from 'h3'
-import { useNotionClient } from '../../composables/useNotionClient'
+import { useNotionClient } from '../../../composables/useNotionClient'
 import { z } from 'zod'
 import type { ListBlockChildrenParameters } from '@notionhq/client'
 import { defineCachedEventHandler } from 'nitropack/runtime'

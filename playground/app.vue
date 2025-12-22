@@ -1,9 +1,10 @@
 <template>
-  <div
-    v-if="data"
-    class="max-w-4xl mx-auto mb-20 prose"
-  >
-    <NotionRenderer :blocks="data.results" />
+  <div>
+    <NotionRenderer
+      v-if="data"
+      class="max-w-4xl mx-auto mb-20 w-full"
+      :blocks="data.results"
+    />
   </div>
 </template>
 
@@ -17,5 +18,4 @@ console.log(data.value.results)
 
 <style>
   @import "tailwindcss";
-  @plugin "@tailwindcss/typography";
 </style>

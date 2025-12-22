@@ -14,6 +14,7 @@ import Divider from './Divider.vue'
 import Video from './Video.vue'
 import File from './File.vue'
 import Embed from './Embed.vue'
+import Bookmark from './Bookmark.vue'
 
 const props = defineProps<{
   blocks: AnyNotionBlock[]
@@ -71,56 +72,62 @@ const renderableBlocks = computed(() => {
 </script>
 
 <template>
-  <template
-    v-for="(renderBlock, idx) in renderableBlocks"
-    :key="idx"
-  >
-    <template v-if="renderBlock.type === RenderBlockType.Block">
-      <Header
-        v-if="isNotionBlockType(renderBlock.block, 'heading_1', 'heading_2', 'heading_3')"
-        :block="renderBlock.block"
-      />
-      <Paragraph
-        v-else-if="isNotionBlockType(renderBlock.block, 'paragraph')"
-        :block="renderBlock.block"
-      />
-      <Image
-        v-else-if="isNotionBlockType(renderBlock.block, 'image')"
-        :block="renderBlock.block"
-      />
-      <Code
-        v-else-if="isNotionBlockType(renderBlock.block, 'code')"
-        :block="renderBlock.block"
-      />
-      <Callout
-        v-else-if="isNotionBlockType(renderBlock.block, 'callout')"
-        :block="renderBlock.block"
-      />
-      <Quote
-        v-else-if="isNotionBlockType(renderBlock.block, 'quote')"
-        :block="renderBlock.block"
-      />
-      <Divider
-        v-else-if="isNotionBlockType(renderBlock.block, 'divider')"
-        :block="renderBlock.block"
-      />
-      <Video
-        v-else-if="isNotionBlockType(renderBlock.block, 'video')"
-        :block="renderBlock.block"
-      />
-      <File
-        v-else-if="isNotionBlockType(renderBlock.block, 'file')"
-        :block="renderBlock.block"
-      />
-      <Embed
-        v-else-if="isNotionBlockType(renderBlock.block, 'embed')"
-        :embed="renderBlock.block"
+  <div class="prose">
+    <template
+      v-for="(renderBlock, idx) in renderableBlocks"
+      :key="idx"
+    >
+      <template v-if="renderBlock.type === RenderBlockType.Block">
+        <Header
+          v-if="isNotionBlockType(renderBlock.block, 'heading_1', 'heading_2', 'heading_3')"
+          :block="renderBlock.block"
+        />
+        <Paragraph
+          v-else-if="isNotionBlockType(renderBlock.block, 'paragraph')"
+          :block="renderBlock.block"
+        />
+        <Image
+          v-else-if="isNotionBlockType(renderBlock.block, 'image')"
+          :block="renderBlock.block"
+        />
+        <Code
+          v-else-if="isNotionBlockType(renderBlock.block, 'code')"
+          :block="renderBlock.block"
+        />
+        <Callout
+          v-else-if="isNotionBlockType(renderBlock.block, 'callout')"
+          :block="renderBlock.block"
+        />
+        <Quote
+          v-else-if="isNotionBlockType(renderBlock.block, 'quote')"
+          :block="renderBlock.block"
+        />
+        <Divider
+          v-else-if="isNotionBlockType(renderBlock.block, 'divider')"
+          :block="renderBlock.block"
+        />
+        <Video
+          v-else-if="isNotionBlockType(renderBlock.block, 'video')"
+          :block="renderBlock.block"
+        />
+        <File
+          v-else-if="isNotionBlockType(renderBlock.block, 'file')"
+          :block="renderBlock.block"
+        />
+        <Embed
+          v-else-if="isNotionBlockType(renderBlock.block, 'embed')"
+          :embed="renderBlock.block"
+        />
+        <Bookmark
+          v-else-if="isNotionBlockType(renderBlock.block, 'bookmark')"
+          :block="renderBlock.block"
+        />
+      </template>
+      <ListRenderer
+        v-else-if="renderBlock.type === RenderBlockType.List"
+        :blocks="renderBlock.items"
+        :type="renderBlock.listType"
       />
     </template>
-    <ListRenderer
-      v-else-if="renderBlock.type === RenderBlockType.List"
-      :blocks="renderBlock.items"
-      :type="renderBlock.listType"
-    />
-  </template>
+  </div>
 </template>

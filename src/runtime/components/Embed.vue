@@ -60,27 +60,32 @@ const caption = computed(() => {
 
 <template>
   <div
-    class="relative aspect-video"
+    v-if="isYouTube"
+    class="relative aspect-video not-prose"
   >
     <iframe
-      v-if="isYouTube"
-      class="absolute inset-0 w-full h-full m-0!"
+
+      class="absolute inset-0 w-full h-full m-0! rounded-md"
       :src="youtubeUrl"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
       loading="lazy"
     />
+  </div>
+  <div
+    v-else-if="isSpotify"
+    class="relative h-48"
+  >
     <iframe
-      v-if="isSpotify"
-      class="absolute inset-0 w-full h-full m-0!"
+      class="absolute inset-0 h-full w-full m-0! rounded-md"
       :src="spotifyUrl"
       frameBorder="0"
       allowfullscreen
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"
     />
-
-    <TextRenderer :text="caption" />
   </div>
+
+  <TextRenderer :text="caption" />
 </template>

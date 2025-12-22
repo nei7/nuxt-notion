@@ -36,8 +36,15 @@
   "dependencies": {
     "@notionhq/client": "^5.6.0",
     "@nuxt/kit": "^4.2.2",
+    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "defu": "^6.1.4",
+    "metascraper": "^5.49.7",
+    "metascraper-description": "^5.49.7",
+    "metascraper-image": "^5.49.7",
+    "metascraper-logo": "^5.49.7",
+    "metascraper-logo-favicon": "^5.49.7",
+    "metascraper-title": "^5.49.7",
     "shiki": "^3.20.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.2.1"
