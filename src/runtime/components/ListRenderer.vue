@@ -18,7 +18,7 @@ const listHtmlTag = computed(() => {
       return 'ol'
     case 'to_do':
     default:
-      return 'di'
+      return 'div'
   }
 })
 </script>
@@ -26,6 +26,7 @@ const listHtmlTag = computed(() => {
 <template>
   <component
     :is="listHtmlTag"
+    class="list-inside mb-6 space-y-2 text-slate-700 "
     :class="{
       'list-disc': props.type === 'bulleted_list_item',
       'list-decimal': props.type === 'numbered_list_item',

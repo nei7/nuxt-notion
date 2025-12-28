@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center space-x-3 mb-3 ">
+  <div class="flex items-center space-x-2">
     <input
       type="checkbox"
       :value="block.to_do.checked"

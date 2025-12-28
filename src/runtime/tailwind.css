@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@plugin "@tailwindcss/typography";
-
 @source "../**/*.{js,ts,vue}";
 
+
+@import "katex/dist/katex.min.css"

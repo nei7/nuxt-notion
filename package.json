@@ -39,6 +39,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "defu": "^6.1.4",
+    "katex": "^0.16.27",
     "metascraper": "^5.49.7",
     "metascraper-description": "^5.49.7",
     "metascraper-image": "^5.49.7",

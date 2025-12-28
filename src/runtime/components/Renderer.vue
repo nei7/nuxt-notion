@@ -15,6 +15,7 @@ import Video from './Video.vue'
 import File from './File.vue'
 import Embed from './Embed.vue'
 import Bookmark from './Bookmark.vue'
+import Equation from './Equation.vue'
 
 const props = defineProps<{
   blocks: AnyNotionBlock[]
@@ -120,6 +121,10 @@ const renderableBlocks = computed(() => {
         />
         <Bookmark
           v-else-if="isNotionBlockType(renderBlock.block, 'bookmark')"
+          :block="renderBlock.block"
+        />
+        <Equation
+          v-else-if="isNotionBlockType(renderBlock.block, 'equation')"
           :block="renderBlock.block"
         />
       </template>

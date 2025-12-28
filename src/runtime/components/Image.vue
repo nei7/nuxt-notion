@@ -29,7 +29,7 @@ const imageCaption = computed(() => {
   >
   <div
     v-if="block.image.caption.length > 0"
-    class="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center"
+    class="mt-2 text-center"
   >
     <TextRenderer :text="block.image.caption" />
   </div>
