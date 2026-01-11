@@ -2,19 +2,20 @@
 import { isFullBlock, type BlockObjectResponse } from '@notionhq/client'
 import type { AnyNotionBlock, NotionListBlock, NotionListType } from '../types/notion'
 import { isNotionBlockType } from '../utils'
+import { computed } from 'vue'
+
 import Header from './Header.vue'
 import Paragraph from './Paragraph.vue'
 import Image from './Image.vue'
 import Code from './Code.vue'
 import Callout from './Callout.vue'
 import Quote from './Quote.vue'
-import { computed } from 'vue'
 import ListRenderer from './ListRenderer.vue'
 import Divider from './Divider.vue'
 import Video from './Video.vue'
 import File from './File.vue'
 import Embed from './Embed.vue'
-import Bookmark from './Bookmark.vue'
+import WebBookmark from './WebBookmark.vue'
 import Equation from './Equation.vue'
 
 const props = defineProps<{
@@ -119,7 +120,7 @@ const renderableBlocks = computed(() => {
           v-else-if="isNotionBlockType(renderBlock.block, 'embed')"
           :embed="renderBlock.block"
         />
-        <Bookmark
+        <WebBookmark
           v-else-if="isNotionBlockType(renderBlock.block, 'bookmark')"
           :block="renderBlock.block"
         />

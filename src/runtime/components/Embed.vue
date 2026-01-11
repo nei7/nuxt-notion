@@ -65,7 +65,7 @@ const caption = computed(() => {
   >
     <iframe
 
-      class="absolute inset-0 w-full h-full m-0! rounded-md"
+      class="absolute inset-0 w-full h-full m-0! rounded-notion"
       :src="youtubeUrl"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -78,7 +78,7 @@ const caption = computed(() => {
     class="relative h-48"
   >
     <iframe
-      class="absolute inset-0 h-full w-full m-0! rounded-md"
+      class="absolute inset-0 h-full w-full m-0! rounded-notion"
       :src="spotifyUrl"
       frameBorder="0"
       allowfullscreen

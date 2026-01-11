@@ -17,7 +17,11 @@ const language: string | undefined = isAllowedLanguage(props.block.code.language
 try {
   highlightedCode = highlighter.codeToHtml(codeContent, {
     lang: language as BundledLanguage,
-    theme: 'github-dark',
+    themes: {
+      light: 'material-theme-lighter',
+      dark: 'material-theme-darker',
+
+    },
   })
 }
 catch (err) {
@@ -27,7 +31,13 @@ catch (err) {
 
 <template>
   <div
-    class="rounded-md overflow-x-auto"
+    class="rounded-notion overflow-x-auto"
     v-html="highlightedCode"
   />
 </template>
+
+<style>
+pre.shiki {
+  padding: 0.75rem;
+}
+</style>

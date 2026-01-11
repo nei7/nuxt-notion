@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CalloutBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { CalloutBlockObjectResponse } from '@notionhq/client'
 import TextRenderer from './TextRenderer.vue'
 import { notionColorToCss } from '../utils'
 
@@ -20,7 +20,7 @@ const imgUrl = () => {
 
 <template>
   <div
-    class="p-3 my-4 rounded-md flex space-x-3"
+    class="p-3 my-5 flex space-x-3"
     :class="color"
   >
     <div
@@ -33,7 +33,7 @@ const imgUrl = () => {
 
       <img
         v-else-if="icon.type === 'external' || icon.type === 'file'"
-        class="w-5 h-5 rounded-md m-0!"
+        class="w-5 h-5 rounded-md"
         :src="imgUrl()"
       >
     </div>
