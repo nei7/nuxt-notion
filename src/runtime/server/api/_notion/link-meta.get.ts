@@ -3,8 +3,8 @@ import metascraperTitle from 'metascraper-title'
 import metascraperDescription from 'metascraper-description'
 import metascraperImage from 'metascraper-image'
 import metascraperFavicon from 'metascraper-logo-favicon'
-import { defineCachedEventHandler } from 'nitropack/runtime'
 import { getQuery, createError } from 'h3'
+import { defineCachedEventHandler } from '#imports'
 
 const scraper = createMetascraper([
   metascraperTitle(),

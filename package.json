@@ -46,7 +46,6 @@
     "metascraper-logo": "^5.49.7",
     "metascraper-logo-favicon": "^5.49.7",
     "metascraper-title": "^5.49.7",
-    "shiki": "^3.20.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.2.1"
   },
@@ -63,5 +62,8 @@
     "typescript": "~5.9.3",
     "vitest": "^4.0.15",
     "vue-tsc": "^3.1.8"
+  },
+  "peerDependencies": {
+    "nuxt-shiki": "^0.3.2"
   }
 }

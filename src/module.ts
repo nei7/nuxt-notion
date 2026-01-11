@@ -10,14 +10,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export interface ModuleOptions {
   notionApiKey: string
-  shiki?: {
-    themes?: string[]
-    langs?: string[]
-    theme?: {
-      light: string
-      dark: string
-    }
-  }
+
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -26,6 +19,11 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'nuxtNotion',
   },
   defaults: {},
+  moduleDependencies: {
+    'nuxt-shiki': {
+      version: '^0.3.2',
+    },
+  },
   setup(_options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
@@ -35,11 +33,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     addVitePlugin(tailwindcss())
-
-    nuxt.options.css.push(
-      resolver.resolve('./runtime/tailwind.css'),
-      resolver.resolve('./runtime/main.css'),
-    )
 
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),
