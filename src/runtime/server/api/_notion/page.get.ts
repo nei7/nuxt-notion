@@ -1,5 +1,5 @@
 import { getValidatedQuery } from 'h3'
-import { useNotionClient } from '../../../composables/useNotionClient'
+import { useNotionClient } from '../../../composables/server/useNotionClient'
 import { z } from 'zod'
 import type { GetPageParameters } from '@notionhq/client'
 import { defineCachedEventHandler } from 'nitropack/runtime'

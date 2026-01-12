@@ -2,18 +2,19 @@ import {
   defineNuxtModule,
   createResolver,
   addComponentsDir,
-  addImportsDir,
   addVitePlugin,
   addServerScanDir,
+  addServerImportsDir,
+  addImportsDir,
 } from '@nuxt/kit'
 import tailwindcss from '@tailwindcss/vite'
 
 export interface ModuleOptions {
   notionApiKey: string
-
 }
 
 export default defineNuxtModule<ModuleOptions>({
+
   meta: {
     name: 'nuxt-notion',
     configKey: 'nuxtNotion',
@@ -32,6 +33,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     }
 
+    nuxt.options.build.transpile.push('@notionhq/client')
+
     addVitePlugin(tailwindcss())
 
     addComponentsDir({
@@ -41,8 +44,11 @@ export default defineNuxtModule<ModuleOptions>({
       global: true,
     })
 
-    addImportsDir(resolver.resolve('./runtime/composables'))
+    addImportsDir(resolver.resolve('./runtime/composables/client'))
+
+    addServerImportsDir(resolver.resolve('./runtime/composables/server'))
 
     addServerScanDir(resolver.resolve('./runtime/server'))
   },
+
 })
