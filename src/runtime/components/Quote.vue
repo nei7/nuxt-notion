@@ -11,10 +11,7 @@ const color = notionColorToCss(block.quote.color)
 </script>
 
 <template>
-  <blockquote
-    :class="color"
-    class="p-3 my-4 border-s-4 italic after:content-[close-quote] before:content-[open-quote]"
-  >
+  <blockquote :class="color">
     <TextRenderer :text="block.quote.rich_text" />
   </blockquote>
 </template>

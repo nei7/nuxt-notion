@@ -13,12 +13,10 @@ const fileUrl = computed(() => {
 </script>
 
 <template>
-  <div class="my-3">
-    <a
-      :href="fileUrl"
-      download
-    >
-      {{ block.file.name }}
-    </a>
-  </div>
+  <a
+    :href="fileUrl"
+    download
+  >
+    {{ block.file.name }}
+  </a>
 </template>

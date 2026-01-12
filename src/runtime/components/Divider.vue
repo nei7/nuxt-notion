@@ -7,5 +7,5 @@ defineProps<{
 </script>
 
 <template>
-  <hr class="border-gray-200 dark:border-gray-700 my-8">
+  <hr>
 </template>

@@ -9,12 +9,13 @@ defineProps<{
 </script>
 
 <template>
-  <span
+  <component
+    :is="text.annotations.code ? 'code' : 'span'"
     v-if="text.type === 'text'"
     :class="notionAnnotationsToCss(text.annotations)"
   >
     {{ text.plain_text }}
-  </span>
+  </component>
   <MathFormula
     v-else-if="text.type === 'equation'"
     :expression="text.equation.expression"

@@ -20,7 +20,7 @@ const imgUrl = () => {
 
 <template>
   <div
-    class="p-3 my-5 flex space-x-3"
+    class="p-3 my-5 flex space-x-3 not-prose"
     :class="color"
   >
     <div

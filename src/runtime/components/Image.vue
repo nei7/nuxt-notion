@@ -24,7 +24,6 @@ const imageCaption = computed(() => {
   <img
     :src="imageUrl"
     :alt="imageCaption || 'Image'"
-    class="w-full h-auto rounded-lg shadow-md"
     loading="lazy"
   >
   <div

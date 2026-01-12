@@ -2,7 +2,7 @@
   <div>
     <NotionRenderer
       v-if="data"
-      class="max-w-4xl mx-auto mb-20 w-full"
+      class="max-w-4xl mx-auto mb-20 w-full prose"
       :blocks="data.results"
     />
   </div>
@@ -21,6 +21,7 @@ console.log(data.value.results)
 <style>
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
 @source "../**/*.{js,ts,vue}";
 
 @media (prefers-color-scheme: dark) {

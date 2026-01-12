@@ -7,15 +7,13 @@ const code = props.block.code.rich_text[0]?.plain_text || ''
 </script>
 
 <template>
-  <div class="relative w-full">
-    <Shiki
-      :lang="
-        block.code.language as any
-      "
-      :code="code"
-      unwrap
-    />
-  </div>
+  <Shiki
+    :lang="
+      block.code.language as any
+    "
+    :code="code"
+    unwrap
+  />
 </template>
 
 <style>

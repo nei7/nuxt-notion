@@ -1,10 +1,10 @@
 import type { BlockObjectResponse } from '@notionhq/client'
 import type { NotionAnnotations, NotionColor } from '../types/notion'
 
-export function isNotionBlockType<T extends BlockObjectResponse, U extends T['type']>(
-  block: T,
-  ...types: U[]
-): block is T & { type: U } {
+export function isNotionBlockType<
+  T extends BlockObjectResponse,
+  U extends T['type'],
+>(block: T, ...types: U[]): block is T & { type: U } {
   for (const t of types) if (t === block.type) return true
   return false
 }
@@ -44,9 +44,6 @@ export const notionAnnotationsToCss = (annotations: NotionAnnotations) => {
   if (annotations.underline) classes.push('underline')
   if (annotations.bold) classes.push('font-bold')
   if (annotations.italic) classes.push('italic')
-  if (annotations.code) {
-    classes.push('bg-gray-100 dark:bg-gray-800 px-1 py-0.5 text-sm font-mono')
-  }
 
   classes.push(notionColorToCss(annotations.color))
 
