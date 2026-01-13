@@ -1,8 +1,7 @@
-import { getValidatedQuery } from 'h3'
+import { getValidatedQuery, defineEventHandler } from 'h3'
 import { useNotionClient } from '../../../composables/server/useNotionClient'
 import { z } from 'zod'
 import type { ListBlockChildrenParameters } from '@notionhq/client'
-import { defineCachedEventHandler } from 'nitropack/runtime'
 
 const schema: z.ZodType<ListBlockChildrenParameters> = z.object({
   block_id: z.string(),
@@ -10,7 +9,7 @@ const schema: z.ZodType<ListBlockChildrenParameters> = z.object({
   page_size: z.number().optional(),
 })
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const client = useNotionClient()
 
   const query = await getValidatedQuery(event, schema.parse)

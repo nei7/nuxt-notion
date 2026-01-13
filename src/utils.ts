@@ -34,6 +34,9 @@ export const parseProperty = (property: Property): ParsedPropertyValue => {
     case 'select':
       return property.select?.name
 
+    case 'created_time':
+      return property.created_time
+
     case 'multi_select':
       return property.multi_select.map(option => option.name)
 

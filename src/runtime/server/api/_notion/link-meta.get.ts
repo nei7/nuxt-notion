@@ -45,7 +45,6 @@ export default defineCachedEventHandler(async (event) => {
       success: false,
       title,
       url: url,
-
     }
   }
 })

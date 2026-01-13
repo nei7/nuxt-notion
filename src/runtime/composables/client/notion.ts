@@ -1,29 +1,44 @@
 import { useAsyncData, type AsyncData, type AsyncDataOptions, type NuxtError } from '#app'
 import type { GetPageParameters, GetPageResponse, ListBlockChildrenParameters, ListBlockChildrenResponse, QueryDataSourceParameters, QueryDataSourceResponse } from '@notionhq/client'
 
-export type NotionComposable<
-  TParams,
-  TInput,
-  TOutput = TInput,
-> = (
-  params: TParams,
-  options?: AsyncDataOptions<TInput, TOutput>,
-) => AsyncData<Pick<TOutput, TOutput extends TOutput ? keyof TOutput extends string ? string & keyof TOutput : never : never> | undefined, NuxtError | undefined>
+export type NotionComposable<TParams, TData> = {
+  <TResult = TData>(
+    params: TParams,
+    options?: AsyncDataOptions<TData, TResult>
+  ): AsyncData<TResult | null, NuxtError | null>
 
-export const createNotionData = <
-  TParams,
-  TInput,
-  TOutput = TInput,
->(
+  withTransform: <TTransformed>(
+    transformFn: (data: TData) => TTransformed,
+  ) => NotionComposable<TParams, TTransformed>
+}
+
+export const createNotionData = <TParams, TData>(
   getKey: (params: TParams) => string,
-  fetcher: (params: TParams) => Promise<TInput>,
-): NotionComposable<TParams, TInput, TOutput> => {
-  return (params, options) =>
-    useAsyncData<TInput, NuxtError, TOutput>(
+  fetcher: (params: TParams) => Promise<TData>,
+): NotionComposable<TParams, TData> => {
+  const composableFn = <TResult = TData>(
+    params: TParams,
+    options?: AsyncDataOptions<TData, TResult>,
+  ) => {
+    return useAsyncData(
       getKey(params),
       () => fetcher(params),
       options,
     )
+  }
+
+  composableFn.withTransform = <TTransformed>(
+    transformFn: (data: TData) => TTransformed,
+  ): NotionComposable<TParams, TTransformed> => {
+    const transformedFetcher = async (p: TParams) => {
+      const data = await fetcher(p)
+      return transformFn(data)
+    }
+
+    return createNotionData(getKey, transformedFetcher)
+  }
+
+  return composableFn as NotionComposable<TParams, TData>
 }
 
 export const useNotionDatabase = createNotionData(
@@ -36,7 +51,6 @@ export const useNotionDatabase = createNotionData(
 
 export const useNotionPage = createNotionData(
   (p: GetPageParameters) => `notion-page-${p.page_id}`,
-
   p => $fetch<GetPageResponse>('/api/_notion/page', {
     query: p,
   }),
@@ -44,7 +58,6 @@ export const useNotionPage = createNotionData(
 
 export const useNotionBlocks = createNotionData(
   (p: ListBlockChildrenParameters) => `notion-blocks-${p.block_id}`,
-
   p => $fetch<ListBlockChildrenResponse>('/api/_notion/blocks', {
     query: p,
   }),
