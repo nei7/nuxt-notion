@@ -1,4 +1,4 @@
-import { useAsyncData, type AsyncData, type AsyncDataOptions, type NuxtError } from '#app'
+import { useAsyncData, useNuxtApp, type AsyncData, type AsyncDataOptions, type NuxtError } from '#app'
 import type { GetPageParameters, GetPageResponse, ListBlockChildrenParameters, ListBlockChildrenResponse, QueryDataSourceParameters, QueryDataSourceResponse } from '@notionhq/client'
 
 export type NotionComposable<TParams, TData> = {
@@ -10,20 +10,23 @@ export type NotionComposable<TParams, TData> = {
   withTransform: <TTransformed>(
     transformFn: (data: TData) => TTransformed,
   ) => NotionComposable<TParams, TTransformed>
+
+  withCachedData: (getCacheKey?: (params: TParams) => string) => NotionComposable<TParams, TData>
 }
 
 export const createNotionData = <TParams, TData>(
   getKey: (params: TParams) => string,
   fetcher: (params: TParams) => Promise<TData>,
+  initialOptions: AsyncDataOptions<TData> = {},
 ): NotionComposable<TParams, TData> => {
-  const composableFn = <TResult = TData>(
+  const composableFn = (
     params: TParams,
-    options?: AsyncDataOptions<TData, TResult>,
+    callOptions?: AsyncDataOptions<TData>,
   ) => {
     return useAsyncData(
       getKey(params),
       () => fetcher(params),
-      options,
+      { ...initialOptions, ...callOptions },
     )
   }
 
@@ -35,14 +38,30 @@ export const createNotionData = <TParams, TData>(
       return transformFn(data)
     }
 
-    return createNotionData(getKey, transformedFetcher)
+    return createNotionData(
+      getKey,
+      transformedFetcher,
+      initialOptions as unknown as AsyncDataOptions<TTransformed>,
+    )
+  }
+
+  composableFn.withCachedData = (getCacheKey?: (params: TParams) => string) => {
+    const newOptions: AsyncDataOptions<TData> = {
+      ...initialOptions,
+      getCachedData: (key) => {
+        const nuxtApp = useNuxtApp()
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+      },
+    }
+
+    return createNotionData(getCacheKey ?? getKey, fetcher, newOptions)
   }
 
   return composableFn as NotionComposable<TParams, TData>
 }
 
 export const useNotionDatabase = createNotionData(
-  (p: QueryDataSourceParameters) => `notion-db-${p.data_source_id}-${JSON.stringify(p.filter)}`,
+  (p: QueryDataSourceParameters) => `notion-db-${JSON.stringify(p)}`,
   p => $fetch<QueryDataSourceResponse>('/api/_notion/query-database', {
     method: 'POST',
     body: p,
@@ -50,14 +69,14 @@ export const useNotionDatabase = createNotionData(
 )
 
 export const useNotionPage = createNotionData(
-  (p: GetPageParameters) => `notion-page-${p.page_id}`,
+  (p: GetPageParameters) => `notion-page-${JSON.stringify(p)}`,
   p => $fetch<GetPageResponse>('/api/_notion/page', {
     query: p,
   }),
 )
 
 export const useNotionBlocks = createNotionData(
-  (p: ListBlockChildrenParameters) => `notion-blocks-${p.block_id}`,
+  (p: ListBlockChildrenParameters) => `notion-blocks-${JSON.stringify(p)}`,
   p => $fetch<ListBlockChildrenResponse>('/api/_notion/blocks', {
     query: p,
   }),

@@ -74,7 +74,7 @@ const renderableBlocks = computed(() => {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <template
       v-for="(renderBlock, idx) in renderableBlocks"
       :key="idx"

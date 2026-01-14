@@ -28,7 +28,6 @@ const imageCaption = computed(() => {
   >
   <div
     v-if="block.image.caption.length > 0"
-    class="mt-2 text-center"
   >
     <TextRenderer :text="block.image.caption" />
   </div>

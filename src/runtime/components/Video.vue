@@ -21,9 +21,7 @@ const isExternalVideo = (block: VideoBlockObjectResponse): block is VideoBlockOb
 </script>
 
 <template>
-  <div
-    class="relative aspect-video"
-  >
+  <div>
     <Embed
       v-if="isExternalVideo(block)"
       :embed="block"
@@ -31,7 +29,6 @@ const isExternalVideo = (block: VideoBlockObjectResponse): block is VideoBlockOb
 
     <video
       v-else
-      class="absolute inset-0 w-full h-full m-0!"
 
       controls
     >

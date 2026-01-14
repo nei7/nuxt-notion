@@ -2,12 +2,10 @@ import {
   defineNuxtModule,
   createResolver,
   addComponentsDir,
-  addVitePlugin,
   addServerScanDir,
   addServerImportsDir,
   addImportsDir,
 } from '@nuxt/kit'
-import tailwindcss from '@tailwindcss/vite'
 
 export interface ModuleOptions {
   notionApiKey: string
@@ -34,8 +32,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     nuxt.options.build.transpile.push('@notionhq/client')
-
-    addVitePlugin(tailwindcss())
 
     addComponentsDir({
       path: resolver.resolve('./runtime/components'),

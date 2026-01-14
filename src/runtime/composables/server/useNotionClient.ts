@@ -6,15 +6,11 @@ let notionClient: Client
 export const useNotionClient = () => {
   if (notionClient) return notionClient
 
-  if (import.meta.server) {
-    const config = useRuntimeConfig().nuxtNotion
+  const config = useRuntimeConfig().nuxtNotion
 
-    notionClient = new Client({
-      auth: config.notionApiKey,
-    })
-  }
-  else
-    notionClient = new Client()
+  notionClient = new Client({
+    auth: config.notionApiKey,
+  })
 
   return notionClient
 }

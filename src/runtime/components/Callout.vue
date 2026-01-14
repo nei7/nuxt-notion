@@ -20,12 +20,10 @@ const imgUrl = () => {
 
 <template>
   <div
-    class="p-3 my-5 flex space-x-3 not-prose"
     :class="color"
   >
     <div
       v-if="icon"
-      class="flex items-center justify-center "
     >
       <span v-if="icon.type === 'emoji'">
         {{ icon.emoji }}
@@ -33,7 +31,6 @@ const imgUrl = () => {
 
       <img
         v-else-if="icon.type === 'external' || icon.type === 'file'"
-        class="w-5 h-5 rounded-md"
         :src="imgUrl()"
       >
     </div>

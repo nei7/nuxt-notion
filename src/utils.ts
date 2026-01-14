@@ -1,16 +1,20 @@
 import type { PageObjectResponse } from '@notionhq/client'
 
-export { isFullBlock, isFullDataSource, isFullDatabase, isFullPage, isFullUser, isFullComment, isFullPageOrDataSource } from '@notionhq/client'
-
-export const parseProperties = (properties: PageObjectResponse['properties']) => {
+export const parseProperties = <T = Record<string, ParsedPropertyValue>>(properties: PageObjectResponse['properties']) => {
   return Object.entries(properties).reduce<Record<string, ParsedPropertyValue>>((previousValue, [key, property]) => {
     previousValue[key] = parseProperty(property)
 
     return previousValue
-  }, {})
+  }, {}) as T
 }
 
-export type ParsedPropertyValue = number | string[] | string | undefined | null | boolean
+type DateResponse = {
+  start: string
+  end: string | null
+  time_zone: string | null
+}
+
+export type ParsedPropertyValue = number | string[] | string | undefined | null | boolean | DateResponse
 
 type Property = PageObjectResponse['properties'][string]
 
@@ -34,6 +38,9 @@ export const parseProperty = (property: Property): ParsedPropertyValue => {
     case 'select':
       return property.select?.name
 
+    case 'status':
+      return property.status?.name
+
     case 'created_time':
       return property.created_time
 
@@ -47,20 +54,14 @@ export const parseProperty = (property: Property): ParsedPropertyValue => {
       return property.title.map(t => t.plain_text).join('')
 
     case 'date':
-      return property.date?.start
+      return property.date
 
     case 'formula':
       if (property.formula.type === 'string') return property.formula.string
       if (property.formula.type === 'number') return property.formula.number
       if (property.formula.type === 'boolean') return property.formula.boolean
-      if (property.formula.type === 'date') return property.formula.date?.start
+      if (property.formula.type === 'date') return property.formula.date
       return null
-
-    case 'relation':
-      return property.relation.map(r => r.id)
-
-    case 'people':
-      return property.people.map(p => p.id)
 
     case 'files':
       return property.files.map(f => f.name)
