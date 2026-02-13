@@ -21,7 +21,9 @@ const isExternalVideo = (block: VideoBlockObjectResponse): block is VideoBlockOb
 </script>
 
 <template>
-  <div>
+  <div
+    class="notion-video"
+  >
     <Embed
       v-if="isExternalVideo(block)"
       :embed="block"

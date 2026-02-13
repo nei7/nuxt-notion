@@ -8,6 +8,7 @@ const code = props.block.code.rich_text[0]?.plain_text || ''
 
 <template>
   <Shiki
+    class="not-prose"
     :lang="
       block.code.language as any
     "
@@ -17,10 +18,11 @@ const code = props.block.code.rich_text[0]?.plain_text || ''
 </template>
 
 <style>
-  code.shiki {
+code.shiki {
   display: block;
   width: 100%;
   padding: 1rem;
+  overflow: auto;
 }
 
 pre:has(code.shiki) {

@@ -59,33 +59,30 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="isYouTube"
-    class="relative aspect-video not-prose"
-  >
-    <iframe
-
-      class="absolute inset-0 w-full h-full not-prose"
-      :src="youtubeUrl"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      loading="lazy"
-    />
+  <div class="notion-embed">
+    <div
+      v-if="isYouTube"
+      class="youtube"
+    >
+      <iframe
+        :src="youtubeUrl"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loading="lazy"
+      />
+    </div>
+    <div
+      v-else-if="isSpotify"
+      class="spotify"
+    >
+      <iframe
+        :src="spotifyUrl"
+        frameBorder="0"
+        allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      />
+    </div>
   </div>
-  <div
-    v-else-if="isSpotify"
-    class="relative h-48"
-  >
-    <iframe
-      class="absolute inset-0 h-full w-full not-prose"
-      :src="spotifyUrl"
-      frameBorder="0"
-      allowfullscreen
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-    />
-  </div>
-
-  <TextRenderer :text="caption" />
 </template>

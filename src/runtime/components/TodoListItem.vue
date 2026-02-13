@@ -8,15 +8,15 @@ defineProps<{
 </script>
 
 <template>
-  <div>
+  <div class="todo-list">
     <input
       type="checkbox"
       :value="block.to_do.checked"
       disabled
     >
     <div
-      :class="{
-        'line-through': block.to_do.checked,
+      :style="{
+        'text-decoration': block.to_do.checked ? 'line-through' : undefined,
       }"
     >
       <TextRenderer :text="block.to_do.rich_text" />

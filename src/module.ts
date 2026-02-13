@@ -5,6 +5,7 @@ import {
   addServerScanDir,
   addServerImportsDir,
   addImportsDir,
+
 } from '@nuxt/kit'
 
 export interface ModuleOptions {
@@ -28,7 +29,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig.nuxtNotion = {
       notionApiKey: _options.notionApiKey,
-
     }
 
     nuxt.options.build.transpile.push('@notionhq/client')

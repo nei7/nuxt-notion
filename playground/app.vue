@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="prose mx-auto">
     <NotionRenderer
       v-if="data"
       class="max-w-4xl mx-auto mb-20 w-full prose"
@@ -8,40 +8,13 @@
   </div>
 </template>
 
-<script setup>
-import { getNotionBlocks, queryNotionDatabase } from '../src/utils'
-
-const { data } = await useAsyncData('blocks', () =>
-  getNotionBlocks({ block_id: '77c36c79-5d5c-463b-abbe-890071acca79' }),
-)
-
-const { data: posts, error } = useAsyncData(() =>
-  queryNotionDatabase({
-    data_source_id: '855b82e0-9293-4034-909b-40c31660c9d2',
-    filter: {
-      property: 'status',
-      status: {
-        equals: 'Published',
-      },
-    },
-    sorts: [
-      {
-        property: 'published',
-        direction: 'descending',
-      },
-    ],
-    page_size: 25,
-  }),
-)
-
-console.log(posts.value, error.value)
+<script setup lang="ts">
+const { data } = await useNotionBlocks({ block_id: '19617292-7d72-801f-bb26-dec69caa7f71' })
 </script>
 
 <style>
 @import "tailwindcss";
-
 @plugin "@tailwindcss/typography";
-@source "../**/*.{js,ts,vue}";
 
 @media (prefers-color-scheme: dark) {
   .shiki,
