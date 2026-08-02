@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { BlockObjectResponse } from '@notionhq/client'
 import TextRenderer from './TextRenderer.vue'
 
 defineProps<{

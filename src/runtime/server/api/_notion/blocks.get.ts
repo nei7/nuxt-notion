@@ -1,12 +1,12 @@
 import { getValidatedQuery, defineEventHandler } from 'h3'
 import { useNotionClient } from '../../../composables/server/useNotionClient'
 import { z } from 'zod'
-import type { ListBlockChildrenParameters } from '@notionhq/client'
 
-const schema: z.ZodType<ListBlockChildrenParameters> = z.object({
+// query params arrive as strings, so numbers must be coerced
+const schema = z.object({
   block_id: z.string(),
   start_cursor: z.string().optional(),
-  page_size: z.number().optional(),
+  page_size: z.coerce.number().int().min(1).max(100).optional(),
 })
 
 export default defineEventHandler(async (event) => {

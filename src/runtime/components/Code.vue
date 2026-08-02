@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { CodeBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { computed } from 'vue'
+import type { CodeBlockObjectResponse } from '@notionhq/client'
 
 const props = defineProps<{ block: CodeBlockObjectResponse }>()
 
-const code = props.block.code.rich_text[0]?.plain_text || ''
+// Notion splits long code into multiple 2000-char rich_text segments
+const code = computed(() => props.block.code.rich_text.map(t => t.plain_text).join(''))
 </script>
 
 <template>

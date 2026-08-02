@@ -5,31 +5,45 @@ import {
   addServerScanDir,
   addServerImportsDir,
   addImportsDir,
-
 } from '@nuxt/kit'
+import { defu } from 'defu'
 
 export interface ModuleOptions {
-  notionApiKey: string
+  /**
+   * Notion integration token. Can also be set via the
+   * NUXT_NUXT_NOTION_NOTION_API_KEY environment variable.
+   */
+  notionApiKey?: string
+}
+
+declare module '@nuxt/schema' {
+  interface RuntimeConfig {
+    nuxtNotion: {
+      notionApiKey: string
+    }
+  }
 }
 
 export default defineNuxtModule<ModuleOptions>({
-
   meta: {
     name: 'nuxt-notion',
     configKey: 'nuxtNotion',
   },
-  defaults: {},
+  defaults: {
+    notionApiKey: '',
+  },
   moduleDependencies: {
     'nuxt-shiki': {
       version: '^0.3.2',
     },
   },
-  setup(_options, nuxt) {
+  setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    nuxt.options.runtimeConfig.nuxtNotion = {
-      notionApiKey: _options.notionApiKey,
-    }
+    nuxt.options.runtimeConfig.nuxtNotion = defu(
+      nuxt.options.runtimeConfig.nuxtNotion,
+      { notionApiKey: options.notionApiKey },
+    )
 
     nuxt.options.build.transpile.push('@notionhq/client')
 
@@ -46,5 +60,4 @@ export default defineNuxtModule<ModuleOptions>({
 
     addServerScanDir(resolver.resolve('./runtime/server'))
   },
-
 })

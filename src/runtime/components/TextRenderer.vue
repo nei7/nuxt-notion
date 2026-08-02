@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { RichTextItemResponse } from '@notionhq/client'
 import Text from './Text.vue'
 
 defineProps<{

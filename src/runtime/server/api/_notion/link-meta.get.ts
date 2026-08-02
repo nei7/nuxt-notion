@@ -3,8 +3,10 @@ import metascraperTitle from 'metascraper-title'
 import metascraperDescription from 'metascraper-description'
 import metascraperImage from 'metascraper-image'
 import metascraperFavicon from 'metascraper-logo-favicon'
-import { getQuery, createError } from 'h3'
-import { defineCachedEventHandler } from '#imports'
+import { getValidatedQuery } from 'h3'
+import { z } from 'zod'
+import { defineCachedEventHandler } from 'nitropack/runtime'
+import type { LinkMetadataResponse } from '../../../types'
 
 const scraper = createMetascraper([
   metascraperTitle(),
@@ -13,38 +15,39 @@ const scraper = createMetascraper([
   metascraperFavicon(),
 ])
 
-export default defineCachedEventHandler(async (event) => {
-  const { url } = getQuery(event)
-  const targetUrl = url?.toString()
+const schema = z.object({
+  url: z.url({ protocol: /^https?$/ }),
+})
 
-  if (!targetUrl) {
-    throw createError({ statusCode: 400, message: `"url" is required` })
-  }
-  const title = targetUrl ? new URL(targetUrl).hostname : 'Link'
+export default defineCachedEventHandler(async (event): Promise<LinkMetadataResponse> => {
+  const { url } = await getValidatedQuery(event, schema.parse)
+
+  const fallbackTitle = new URL(url).hostname
 
   try {
-    const html = await $fetch<string>(targetUrl, {
+    const html = await $fetch<string>(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
       },
       timeout: 5000,
     })
 
-    const metadata = await scraper({ html, url: targetUrl })
+    const metadata = await scraper({ html, url })
+
     return {
       success: true,
-      title: metadata.title || title,
-      description: metadata.description,
-      image: metadata.image,
-      icon: metadata.logo,
-      url: url,
+      title: metadata.title || fallbackTitle,
+      description: metadata.description ?? undefined,
+      image: metadata.image ?? undefined,
+      icon: metadata.logo ?? undefined,
+      url,
     }
   }
   catch {
     return {
       success: false,
-      title,
-      url: url,
+      title: fallbackTitle,
+      url,
     }
   }
 })

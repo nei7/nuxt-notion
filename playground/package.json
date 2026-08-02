@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "my-module-playground",
+  "name": "nuxt-notion-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
@@ -8,12 +8,12 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "nuxt": "^4.2.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "nuxt": "^4.5.1",
     "nuxt-shiki": "^0.3.2",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.19"
+    "@tailwindcss/typography": "^0.5.20"
   }
 }

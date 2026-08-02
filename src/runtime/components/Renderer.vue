@@ -33,11 +33,13 @@ type RenderBlock
 
 interface AnyNotionRenderBlock {
   type: RenderBlockType.Block
+  key: string
   block: BlockObjectResponse
 }
 
 interface ListRenderBlock {
   type: RenderBlockType.List
+  key: string
   listType: NotionListType
   items: NotionListBlock []
 }
@@ -60,12 +62,13 @@ const renderableBlocks = computed(() => {
     else if (isListBlock) {
       result.push({
         type: RenderBlockType.List,
+        key: block.id,
         listType: block.type,
         items: [block],
       })
     }
     else {
-      result.push({ type: RenderBlockType.Block, block })
+      result.push({ type: RenderBlockType.Block, key: block.id, block })
     }
   }
 
@@ -76,8 +79,8 @@ const renderableBlocks = computed(() => {
 <template>
   <div class="notion-renderer">
     <template
-      v-for="(renderBlock, idx) in renderableBlocks"
-      :key="idx"
+      v-for="renderBlock in renderableBlocks"
+      :key="renderBlock.key"
     >
       <template v-if="renderBlock.type === RenderBlockType.Block">
         <Header

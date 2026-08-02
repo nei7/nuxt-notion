@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { QuoteBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { QuoteBlockObjectResponse } from '@notionhq/client'
 import TextRenderer from './TextRenderer.vue'
 import { notionColorToCss } from '../utils'
 

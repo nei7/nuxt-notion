@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ParagraphBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { ParagraphBlockObjectResponse } from '@notionhq/client'
 import TextRenderer from './TextRenderer.vue'
 
 defineProps<{

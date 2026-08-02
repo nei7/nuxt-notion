@@ -25,31 +25,23 @@ const isSpotify = computed(() => {
 const youtubeUrl = computed(() => {
   if (!isYouTube.value) return ''
 
-  try {
-    const matches = embedUrl.value.match(/[?&]v=([\w-]{11})/)
+  const matches = embedUrl.value.match(
+    /(?:[?&]v=|youtu\.be\/|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/,
+  )
+  if (!matches) return ''
 
-    const videoId = matches ? matches[1] : ''
-
-    return `https://www.youtube.com/embed/${videoId}`
-  }
-  catch {
-    return ''
-  }
+  return `https://www.youtube.com/embed/${matches[1]}`
 })
 
 const spotifyUrl = computed(() => {
   if (!isSpotify.value) return ''
 
-  try {
-    const matches = embedUrl.value.match(/https?:\/\/open\.spotify\.com\/track\/([A-Za-z0-9]+)/)
+  const matches = embedUrl.value.match(
+    /open\.spotify\.com\/(track|album|playlist|episode|show)\/([A-Za-z0-9]+)/,
+  )
+  if (!matches) return ''
 
-    const trackId = matches ? matches[1] : ''
-
-    return `https://open.spotify.com/embed/track/${trackId}`
-  }
-  catch {
-    return ''
-  }
+  return `https://open.spotify.com/embed/${matches[1]}/${matches[2]}`
 })
 
 const caption = computed(() => {
@@ -78,11 +70,22 @@ const caption = computed(() => {
     >
       <iframe
         :src="spotifyUrl"
-        frameBorder="0"
+        frameborder="0"
         allowfullscreen
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       />
+    </div>
+    <a
+      v-else
+      :href="embedUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{ embedUrl }}
+    </a>
+    <div v-if="caption.length > 0">
+      <TextRenderer :text="caption" />
     </div>
   </div>
 </template>

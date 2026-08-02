@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EquationBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type { EquationBlockObjectResponse } from '@notionhq/client'
 import MathFormula from './MathFormula.vue'
 
 defineProps<{

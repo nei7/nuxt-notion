@@ -11,7 +11,7 @@ defineProps<{
   <div class="todo-list">
     <input
       type="checkbox"
-      :value="block.to_do.checked"
+      :checked="block.to_do.checked"
       disabled
     >
     <div
