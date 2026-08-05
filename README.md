@@ -32,7 +32,9 @@ export default defineNuxtConfig({
   modules: ['@nei7/nuxt-notion'],
 
   nuxtNotion: {
-    notionApiKey: process.env.NOTION_API_KEY,
+    apiKey: process.env.NOTION_API_KEY,
+    // optional: lock the query proxy to a single data source
+    dataSourceId: process.env.NOTION_DATA_SOURCE_ID,
   },
 
   // optional: configure syntax highlighting
@@ -43,7 +45,9 @@ export default defineNuxtConfig({
 })
 ```
 
-The token can also be provided via the `NUXT_NUXT_NOTION_NOTION_API_KEY` environment variable instead of the config key.
+Both options can also be provided via environment variables instead of config keys: `NUXT_NUXT_NOTION_API_KEY` and `NUXT_NUXT_NOTION_DATA_SOURCE_ID` (Nuxt runtime-config overrides).
+
+When `dataSourceId` is set, `/api/_notion/query-database` uses it as the default and rejects requests for any other data source with a 403 — recommended for public deployments, since the proxy routes are unauthenticated.
 
 > `nuxt-shiki` is installed automatically as a module dependency.
 

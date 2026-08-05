@@ -11,15 +11,23 @@ import { defu } from 'defu'
 export interface ModuleOptions {
   /**
    * Notion integration token. Can also be set via the
-   * NUXT_NUXT_NOTION_NOTION_API_KEY environment variable.
+   * NUXT_NUXT_NOTION_API_KEY environment variable.
    */
-  notionApiKey?: string
+  apiKey?: string
+  /**
+   * Default Notion data source id. When set, `/api/_notion/query-database`
+   * only accepts queries against this data source (other ids are rejected
+   * with 403) and uses it when the request omits `data_source_id`.
+   * Can also be set via the NUXT_NUXT_NOTION_DATA_SOURCE_ID environment variable.
+   */
+  dataSourceId?: string
 }
 
 declare module '@nuxt/schema' {
   interface RuntimeConfig {
     nuxtNotion: {
-      notionApiKey: string
+      apiKey: string
+      dataSourceId: string
     }
   }
 }
@@ -30,7 +38,8 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'nuxtNotion',
   },
   defaults: {
-    notionApiKey: '',
+    apiKey: '',
+    dataSourceId: '',
   },
   moduleDependencies: {
     'nuxt-shiki': {
@@ -42,7 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig.nuxtNotion = defu(
       nuxt.options.runtimeConfig.nuxtNotion,
-      { notionApiKey: options.notionApiKey },
+      { apiKey: options.apiKey, dataSourceId: options.dataSourceId },
     )
 
     nuxt.options.build.transpile.push('@notionhq/client')

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   nuxtNotion: {
-    notionApiKey: process.env.API_TOKEN,
+    apiKey: process.env.API_TOKEN,
   },
   shiki: {
     defaultTheme: 'material-theme',

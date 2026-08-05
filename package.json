@@ -1,6 +1,6 @@
 {
   "name": "@nei7/nuxt-notion",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Nuxt module for rendering Notion pages and querying Notion databases",
   "repository": "https://github.com/nei7/nuxt-notion",
   "license": "MIT",
@@ -45,11 +45,6 @@
     "@nuxt/kit": "^4.5.1",
     "defu": "^6.1.7",
     "katex": "^0.18.1",
-    "metascraper": "^5.53.0",
-    "metascraper-description": "^5.53.0",
-    "metascraper-image": "^5.53.0",
-    "metascraper-logo-favicon": "^5.53.0",
-    "metascraper-title": "^5.53.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
