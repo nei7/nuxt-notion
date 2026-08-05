@@ -1,4 +1,6 @@
+packages:
+  - playground
+
 allowBuilds:
   esbuild: true
-  re2: true
   unrs-resolver: true
