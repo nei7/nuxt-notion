@@ -19,6 +19,15 @@ A Nuxt module for building a blog on top of the Notion API. It provides Vue comp
 
 ## Installation
 
+This package is published to the [GitHub Packages registry](https://github.com/nei7/nuxt-notion/pkgs/npm/nuxt-notion). Point the `@nei7` scope at it in your project's `.npmrc`:
+
+```ini
+@nei7:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+GitHub Packages requires authentication even for public packages — set `GITHUB_TOKEN` to a [personal access token](https://github.com/settings/tokens) with the `read:packages` scope. Then install as usual:
+
 ```bash
 pnpm add @nei7/nuxt-notion
 ```

@@ -4,6 +4,9 @@
   "description": "Nuxt module for rendering Notion pages and querying Notion databases",
   "repository": "https://github.com/nei7/nuxt-notion",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
   "exports": {
     ".": {

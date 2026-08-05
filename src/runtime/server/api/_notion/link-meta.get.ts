@@ -32,7 +32,7 @@ const findMeta = (html: string, keys: string[]): string | undefined => {
 const findIcon = (html: string): string | undefined => {
   for (const [tag] of html.matchAll(/<link\b[^>]*>/gi)) {
     const rel = tag.match(/rel\s*=\s*["']([^"']+)["']/i)?.[1]?.toLowerCase()
-    if (!rel || !/(^|\s)(icon|shortcut icon|apple-touch-icon)(\s|$)/.test(rel)) continue
+    if (!rel || !/(?:^|\s)(?:icon|shortcut icon|apple-touch-icon)(?:\s|$)/.test(rel)) continue
 
     const href = tag.match(/href\s*=\s*["']([^"']*)["']/i)?.[1]
     if (href) return href
