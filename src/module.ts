@@ -69,12 +69,15 @@ export default defineNuxtModule<ModuleOptions>({
     }
     const publicRuntime: NuxtNotionPublicRuntimeConfig = { darkMode: options.darkMode ?? 'class' }
 
-    nuxt.options.runtimeConfig.nuxtNotion = defu(
-      nuxt.options.runtimeConfig.nuxtNotion as Partial<NuxtNotionRuntimeConfig> | undefined,
+    // Nuxt infers `RuntimeConfig` from the app's own values, so assign through a
+    // loose view instead of the (app-specific) inferred shape.
+    const runtimeConfig = nuxt.options.runtimeConfig as unknown as Record<string, unknown> & { public: Record<string, unknown> }
+    runtimeConfig.nuxtNotion = defu(
+      runtimeConfig.nuxtNotion as Partial<NuxtNotionRuntimeConfig> | undefined,
       runtime,
     )
-    nuxt.options.runtimeConfig.public.nuxtNotion = defu(
-      nuxt.options.runtimeConfig.public.nuxtNotion as Partial<NuxtNotionPublicRuntimeConfig> | undefined,
+    runtimeConfig.public.nuxtNotion = defu(
+      runtimeConfig.public.nuxtNotion as Partial<NuxtNotionPublicRuntimeConfig> | undefined,
       publicRuntime,
     )
 
