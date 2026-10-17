@@ -1,34 +1,31 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { ImageBlockObjectResponse } from '@notionhq/client'
+import type { NotionBlockOf } from '../types/notion'
+import { notionFileUrl } from '../utils/files'
 import TextRenderer from './TextRenderer.vue'
 
-const props = defineProps<{ block: ImageBlockObjectResponse }>()
+const props = defineProps<{
+  block: NotionBlockOf<'image'>
+}>()
 
-const imageUrl = computed(() => {
-  if (props.block.image.type === 'external') {
-    return props.block.image.external?.url
-  }
-  else if (props.block.image.type === 'file') {
-    return props.block.image.file?.url
-  }
-  return ''
-})
-
-const imageCaption = computed(() => {
-  return props.block.image.caption.map(item => item.plain_text).join('')
-})
+const url = computed(() => notionFileUrl(props.block, props.block.image))
+const caption = computed(() => props.block.image.caption)
+const alt = computed(() => caption.value.map(t => t.plain_text).join(''))
 </script>
 
 <template>
-  <img
-    :src="imageUrl"
-    :alt="imageCaption || 'Image'"
-    loading="lazy"
+  <figure
+    v-if="url"
+    class="notion-image"
   >
-  <div
-    v-if="block.image.caption.length > 0"
-  >
-    <TextRenderer :text="block.image.caption" />
-  </div>
+    <img
+      :src="url"
+      :alt="alt"
+      loading="lazy"
+      decoding="async"
+    >
+    <figcaption v-if="caption.length > 0">
+      <TextRenderer :text="caption" />
+    </figcaption>
+  </figure>
 </template>

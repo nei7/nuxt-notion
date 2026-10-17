@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { NotionListBlock, NotionListType } from '../types/notion'
-import BulletedList from './BulletedListItem.vue'
+import BulletedListItem from './BulletedListItem.vue'
 import NumberedListItem from './NumberedListItem.vue'
 import TodoListItem from './TodoListItem.vue'
 
@@ -10,28 +10,19 @@ const props = defineProps<{
   type: NotionListType
 }>()
 
-const listHtmlTag = computed(() => {
-  switch (props.type) {
-    case 'bulleted_list_item':
-      return 'ul'
-    case 'numbered_list_item':
-      return 'ol'
-    case 'to_do':
-    default:
-      return 'div'
-  }
-})
+const tag = computed(() => (props.type === 'numbered_list_item' ? 'ol' : 'ul'))
 </script>
 
 <template>
   <component
-    :is="listHtmlTag"
+    :is="tag"
+    :class="type === 'to_do' ? 'notion-todo-list' : undefined"
   >
     <template
       v-for="block in blocks"
       :key="block.id"
     >
-      <BulletedList
+      <BulletedListItem
         v-if="block.type === 'bulleted_list_item'"
         :block="block"
       />

@@ -10,5 +10,5 @@ export default defineBuildConfig({
   ],
 
   declaration: true,
-  externals: ['@notionhq/client'],
+  externals: ['@notionhq/client', 'nitropack', 'nitropack/runtime', 'h3', 'nuxt-shiki', '#imports', '#app', '#components'],
 })

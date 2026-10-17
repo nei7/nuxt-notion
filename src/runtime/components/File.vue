@@ -1,22 +1,32 @@
 <script setup lang="ts">
-import type { FileBlockObjectResponse } from '@notionhq/client'
 import { computed } from 'vue'
+import type { NotionBlockOf } from '../types/notion'
+import { notionFileUrl } from '../utils/files'
+import TextRenderer from './TextRenderer.vue'
 
 const props = defineProps<{
-  block: FileBlockObjectResponse
+  block: NotionBlockOf<'file'>
 }>()
 
-const fileUrl = computed(() => {
-  if (props.block.file.type === 'external') return props.block.file.external.url
-  else return props.block.file.file.url
-})
+const url = computed(() => notionFileUrl(props.block, props.block.file))
 </script>
 
 <template>
-  <a
-    :href="fileUrl"
-    download
+  <p
+    v-if="url"
+    class="notion-file"
   >
-    {{ block.file.name }}
-  </a>
+    <a
+      :href="url"
+      download
+    >
+      {{ block.file.name }}
+    </a>
+    <span
+      v-if="block.file.caption.length"
+      class="notion-file-caption"
+    >
+      <TextRenderer :text="block.file.caption" />
+    </span>
+  </p>
 </template>

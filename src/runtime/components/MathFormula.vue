@@ -23,5 +23,14 @@ const html = computed(() => {
 </script>
 
 <template>
-  <span v-html="html" />
+  <div
+    v-if="displayMode"
+    class="notion-equation notion-equation-block"
+    v-html="html"
+  />
+  <span
+    v-else
+    class="notion-equation"
+    v-html="html"
+  />
 </template>

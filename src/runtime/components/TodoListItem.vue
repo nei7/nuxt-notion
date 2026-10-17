@@ -1,25 +1,30 @@
 <script setup lang="ts">
-import type { ToDoBlockObjectResponse } from '@notionhq/client'
+import type { NotionBlockOf } from '../types/notion'
 import TextRenderer from './TextRenderer.vue'
+import Blocks from './Blocks.vue'
 
 defineProps<{
-  block: ToDoBlockObjectResponse
+  block: NotionBlockOf<'to_do'>
 }>()
 </script>
 
 <template>
-  <div class="todo-list">
+  <li
+    class="notion-todo"
+    :class="{ 'notion-todo-done': block.to_do.checked }"
+  >
     <input
       type="checkbox"
       :checked="block.to_do.checked"
       disabled
+      aria-hidden="true"
     >
-    <div
-      :style="{
-        'text-decoration': block.to_do.checked ? 'line-through' : undefined,
-      }"
-    >
+    <div class="notion-todo-content">
       <TextRenderer :text="block.to_do.rich_text" />
+      <Blocks
+        v-if="block.children?.length"
+        :blocks="block.children"
+      />
     </div>
-  </div>
+  </li>
 </template>

@@ -1,6 +1,6 @@
 import { getValidatedQuery, defineEventHandler } from 'h3'
-import { useNotionClient } from '../../../composables/server/useNotionClient'
 import { z } from 'zod'
+import { useNotionClient } from '../lib/client'
 
 // query params arrive as strings, so numbers must be coerced
 const schema = z.object({
@@ -9,8 +9,9 @@ const schema = z.object({
   page_size: z.coerce.number().int().min(1).max(100).optional(),
 })
 
+/** Raw proxy (only mounted with `exposeRawApi`). Accepts any block the integration can read. */
 export default defineEventHandler(async (event) => {
-  const client = useNotionClient()
+  const client = useNotionClient(event)
 
   const query = await getValidatedQuery(event, schema.parse)
 

@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['../src/module', 'nuxt-shiki'],
+  modules: ['../src/module'],
   devtools: { enabled: false },
   vite: {
     plugins: [
@@ -9,12 +9,29 @@ export default defineNuxtConfig({
     ],
   },
 
+  // Secrets come from playground/.env (see .env.example):
+  //   NUXT_NUXT_NOTION_API_KEY, NUXT_NUXT_NOTION_COLLECTIONS_POSTS_DATA_SOURCE_ID
   nuxtNotion: {
-    apiKey: process.env.API_TOKEN,
+    exposeRawApi: true,
+    darkMode: 'media',
+    collections: {
+      posts: {
+        dataSourceId: '',
+        properties: {
+          slug: ['slug', 'url'],
+          date: ['date', 'published'],
+          tags: ['tags', 'category'],
+        },
+      },
+    },
   },
+
   shiki: {
-    defaultTheme: 'material-theme',
-    bundledThemes: ['material-theme'],
-    bundledLangs: ['js', 'yaml', 'yml', 'typescript', 'bash', 'python'],
+    defaultTheme: {
+      light: 'vitesse-light',
+      dark: 'vitesse-dark',
+    },
+    bundledThemes: ['vitesse-light', 'vitesse-dark'],
+    bundledLangs: ['javascript', 'typescript', 'json', 'yaml', 'shellscript', 'python'],
   },
 })

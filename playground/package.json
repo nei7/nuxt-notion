@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "nuxt": "^4.5.1",
+    "nuxt": "^4.6.1",
     "nuxt-shiki": "^0.3.2",
     "tailwindcss": "^4.3.3"
   },

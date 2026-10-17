@@ -1,36 +1,34 @@
 <script setup lang="ts">
-import type { VideoBlockObjectResponse } from '@notionhq/client'
 import { computed } from 'vue'
+import type { NotionBlockOf, NotionEmbed } from '../types/notion'
+import { notionFileUrl } from '../utils/files'
 import TextRenderer from './TextRenderer.vue'
 import Embed from './Embed.vue'
 
-const props = defineProps<{ block: VideoBlockObjectResponse }>()
+const props = defineProps<{
+  block: NotionBlockOf<'video'>
+}>()
 
-const videoUrl = computed(() => {
-  return props.block.video.type === 'external'
-    ? props.block.video.external.url
-    : props.block.video.file.url
-})
-
-const isExternalVideo = (block: VideoBlockObjectResponse): block is VideoBlockObjectResponse & { video: { type: 'external' } } => {
-  return block.video.type === 'external'
-}
+const external = computed(() => props.block.video.type === 'external')
+const url = computed(() => notionFileUrl(props.block, props.block.video))
 </script>
 
 <template>
-  <div class="notion-video">
-    <Embed
-      v-if="isExternalVideo(block)"
-      :embed="block"
+  <Embed
+    v-if="external"
+    :embed="(block as NotionEmbed)"
+  />
+  <figure
+    v-else-if="url"
+    class="notion-video"
+  >
+    <video
+      controls
+      preload="metadata"
+      :src="url"
     />
-
-    <template v-else>
-      <video controls>
-        <source :src="videoUrl">
-        Your browser does not support the video tag.
-      </video>
-
+    <figcaption v-if="block.video.caption.length">
       <TextRenderer :text="block.video.caption" />
-    </template>
-  </div>
+    </figcaption>
+  </figure>
 </template>
