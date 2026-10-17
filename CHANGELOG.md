@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.2.1
+
+[compare changes](https://github.com/nei7/nuxt-notion/compare/v0.2.0...v0.2.1)
+
+### 🚀 Enhancements
+
+- ⚠️  Collections, server cache, webhook invalidation and recursive renderer ([6f1da57](https://github.com/nei7/nuxt-notion/commit/6f1da57))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Collections, server cache, webhook invalidation and recursive renderer ([6f1da57](https://github.com/nei7/nuxt-notion/commit/6f1da57))
+
+### ❤️ Contributors
+
+- Nei7 <franciszek.szarek2@gmail.com>
+
 ## v0.2.0
 
 
