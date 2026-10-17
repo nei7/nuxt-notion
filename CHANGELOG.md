@@ -1,13 +1,17 @@
 # Changelog
 
 
-## v0.2.1
+## v0.3.0
 
-[compare changes](https://github.com/nei7/nuxt-notion/compare/v0.2.0...v0.2.1)
+[compare changes](https://github.com/nei7/nuxt-notion/compare/v0.2.0...v0.3.0)
 
 ### 🚀 Enhancements
 
 - ⚠️  Collections, server cache, webhook invalidation and recursive renderer ([6f1da57](https://github.com/nei7/nuxt-notion/commit/6f1da57))
+
+### 🩹 Fixes
+
+- Assign runtime config without depending on the app's inferred types ([bb925a8](https://github.com/nei7/nuxt-notion/commit/bb925a8))
 
 #### ⚠️ Breaking Changes
 
