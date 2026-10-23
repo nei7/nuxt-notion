@@ -146,6 +146,25 @@ describe('buildCollectionQuery', () => {
     const query = buildCollectionQuery(resolveCollectionConfig({ properties: { published: false } }))
     expect(query.filter).toBeUndefined()
   })
+
+  it('does not emit unset filter/sorts keys, so Nuxt cannot turn them into empty strings', () => {
+    const config = resolveCollectionConfig({ dataSourceId: 'x' })
+    expect(config).not.toHaveProperty('filter')
+    expect(config).not.toHaveProperty('sorts')
+  })
+
+  it('treats the empty string Nuxt substitutes for unset runtime config as "no filter/sorts"', () => {
+    // Nuxt replaces `undefined` runtime-config values with '' (so env vars can override them).
+    const runtimeConfig = { ...resolveCollectionConfig({ dataSourceId: 'x' }), filter: '', sorts: '' } as unknown as ReturnType<typeof resolveCollectionConfig>
+    const query = buildCollectionQuery(runtimeConfig)
+    expect(query.filter).toEqual({ property: 'status', status: { equals: 'Published' } })
+    expect(query.sorts).toEqual([{ timestamp: 'created_time', direction: 'descending' }])
+  })
+
+  it('falls back to the default sort for an empty sorts array', () => {
+    const query = buildCollectionQuery(resolveCollectionConfig({ sorts: [] }))
+    expect(query.sorts).toEqual([{ timestamp: 'created_time', direction: 'descending' }])
+  })
 })
 
 describe('sortItems', () => {
@@ -165,6 +184,12 @@ describe('sortItems', () => {
   it('keeps Notion order when the collection defines sorts', () => {
     const items = [make('a', null, '2020-01-01'), make('b', 1, '2025-01-01')]
     expect(sortItems(items, resolveCollectionConfig({ sorts: [{ property: 'x', direction: 'ascending' }] })).map(i => i.id)).toEqual(['a', 'b'])
+  })
+
+  it('applies the default order when sorts is the empty string Nuxt substitutes for undefined', () => {
+    const items = [make('a', null, '2020-01-01'), make('b', 1, '2025-01-01')]
+    const runtimeConfig = { ...resolveCollectionConfig({}), sorts: '' } as unknown as ReturnType<typeof resolveCollectionConfig>
+    expect(sortItems(items, runtimeConfig).map(i => i.id)).toEqual(['b', 'a'])
   })
 })
 

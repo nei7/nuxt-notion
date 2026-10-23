@@ -31,11 +31,26 @@ export function resolveCollectionConfig(config: CollectionConfig = {}): Resolved
   return {
     dataSourceId: config.dataSourceId ?? '',
     properties: resolvePropertyMap(config.properties),
-    filter: config.filter,
-    sorts: config.sorts,
+    // Only emit the optional keys when they are set. Nuxt replaces `undefined`
+    // runtime-config values with '' so they can be overridden from env, and
+    // `sorts: ''` is rejected by the Notion API.
+    ...(config.filter ? { filter: config.filter } : {}),
+    ...(config.sorts ? { sorts: config.sorts } : {}),
     content: config.content ?? true,
   }
 }
+
+/**
+ * The collection's explicit Notion sorts, or `undefined` when none are set.
+ * Treats the '' Nuxt substitutes for an unset runtime-config value, and an
+ * empty array, as "not set".
+ */
+const explicitSorts = (config: ResolvedCollectionConfig) =>
+  Array.isArray(config.sorts) && config.sorts.length > 0 ? config.sorts : undefined
+
+/** The collection's extra Notion filter, or `undefined` when none is set (see `explicitSorts`). */
+const explicitFilter = (config: ResolvedCollectionConfig) =>
+  config.filter && typeof config.filter === 'object' ? config.filter : undefined
 
 const isEmpty = (value: ParsedPropertyValue) =>
   value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0)
@@ -137,19 +152,20 @@ export function buildCollectionQuery(config: ResolvedCollectionConfig): Pick<Que
         : { property, [type]: { equals: String(equals) } } as Filter,
     )
   }
-  if (config.filter) filters.push(config.filter)
+  const extra = explicitFilter(config)
+  if (extra) filters.push(extra)
 
   const filter = filters.length === 0 ? undefined : filters.length === 1 ? filters[0] : { and: filters } as Filter
 
   return {
     filter,
-    sorts: config.sorts ?? [{ timestamp: 'created_time', direction: 'descending' }],
+    sorts: explicitSorts(config) ?? [{ timestamp: 'created_time', direction: 'descending' }],
   }
 }
 
 /** Default ordering when the collection has no explicit `sorts`: `order` asc (nulls last), then `date` desc. */
 export function sortItems<T extends NotionCollectionItem>(items: T[], config: ResolvedCollectionConfig): T[] {
-  if (config.sorts) return items
+  if (explicitSorts(config)) return items
 
   return [...items].sort((a, b) => {
     if (a.order !== b.order) {
