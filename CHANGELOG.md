@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.3.1
+
+[compare changes](https://github.com/nei7/nuxt-notion/compare/v0.3.0...v0.3.1)
+
+### 🩹 Fixes
+
+- Ignore empty-string filter/sorts that Nuxt substitutes for unset runtime config ([3a001b8](https://github.com/nei7/nuxt-notion/commit/3a001b8))
+
+### ❤️ Contributors
+
+- Nei7 <franciszek.szarek2@gmail.com>
+
 ## v0.3.0
 
 [compare changes](https://github.com/nei7/nuxt-notion/compare/v0.2.0...v0.3.0)

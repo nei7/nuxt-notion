@@ -1,6 +1,6 @@
 {
   "name": "@nei7/nuxt-notion",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Nuxt module for rendering Notion pages and querying Notion databases",
   "repository": "https://github.com/nei7/nuxt-notion",
   "license": "MIT",
